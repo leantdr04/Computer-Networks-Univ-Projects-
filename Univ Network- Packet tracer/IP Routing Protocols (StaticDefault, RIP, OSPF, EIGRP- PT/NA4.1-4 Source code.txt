@@ -1,0 +1,167 @@
+NA 4.1 - Static Default Route Source code
+Ranet-HQ router
+
+ena
+conf t
+int s0/0/0
+ip add 52.7.9.221 255.255.255.252
+no shut
+int s0/1/0
+ip add 77.7.7.254 255.255.255.252
+no shut
+int fa0/0
+ip add 52.7.9.206 255.255.255.240
+no shut
+exit
+ip route 0.0.0.0 0.0.0.0 s0/1/0
+ip route 52.7.9.208 255.255.255.248 s0/0/0
+do cop r st
+
+Ranet-BR router
+ena
+conf t
+int s0/0/0
+encapsulation hdlc
+clock rate 64000
+ip add 52.7.9.222 255.255.255.252
+no shut
+int fa0/0
+ip add 52.7.9.214 255.255.255.248
+no shut
+exit
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+ip route 52.7.9.192 255.255.255.240 s0/0/0
+do cop r st
+
+
+NA 4.2 - RIP
+Ranet-HQ router
+ena
+conf t
+int s0/0/0
+ip add 98.83.165.74 255.255.255.252
+no shut
+int s0/1/0
+ip add 52.9.236.22 255.255.255.252
+no shut
+int fa0/0
+ip add 98.83.165.65 255.255.255.248
+no shut
+exit
+router rip
+version 2
+no auto-summary
+network 98.0.0.0
+exit
+ip route 0.0.0.0 0.0.0.0 s0/1/0
+do cop r st
+
+Ranet-BR router
+ena
+conf t
+int fa0/0
+ip add 98.83.165.81 255.255.255.240
+no shut
+int s0/0/0
+encapsulation hdlc
+clock rate 64000
+ip add 98.83.165.73 255.255.255.252
+no shut
+exit
+router rip
+version 2
+no auto-summary
+network 98.0.0.0
+exit
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+do cop r st
+
+
+NA 4.3 - OSPF
+Ranet-HQ router
+ena
+conf t
+int fa0/0
+no shut
+ip add 128.0.6.142 255.255.255.240
+int  s0/0/0
+ip add 128.0.6.157 255.255.255.252
+no shut
+int s0/1/0
+no shut
+ip add 128.0.6.94 255.255.255.252
+exit
+int loopback 0
+ip add 1.1.0.1 255.255.255.0
+exit
+router ospf 1
+network 128.0.6.128 0.0.0.15 area 0
+network 128.0.6.156 0.0.0.3 area 0
+exit
+ip route 0.0.0.0 0.0.0.0 s0/1/0
+do cop r st
+
+Ranet-BR router
+ena
+conf t
+int fa0/0
+ip add 128.0.6.150 255.255.255.248
+no shut
+int s0/0/0
+ip add 128.0.6.158 255.255.255.252
+no shut
+clock rate 64000
+exit
+int loopback 0
+ip add 1.1.1.1 255.255.255.0
+exit
+router ospf 100
+network 128.0.6.144 0.0.0.7 area 0
+network 128.0.6.156 0.0.0.3 area 0
+exit
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+do cop r st
+
+
+NA 4.4 - EIGRP
+Ranet-HQ router
+ena
+conf t
+int fa0/0
+ip add 5.88.192.54 255.255.255.248
+no shut
+int s0/0/0
+ip add 5.88.192.57 255.255.255.248
+no shut
+int s0/1/0
+ip add 5.88.192.226 255.255.255.252
+no shut
+exit
+router eigrp 10110
+network 5.88.192.48 0.0.0.7
+network 5.88.192.56 0.0.0.7
+no auto-summary
+exit
+ip route 0.0.0.0 0.0.0.0 s0/1/0
+do cop r st
+
+Ranet-BR router
+ena
+conf t
+int fa0/0
+ip add 5.88.192.46 255.255.255.240
+no shut
+int s0/0/0
+ip add 5.88.192.62 255.255.255.248
+no shut
+clock rate 64000
+exit
+router eigrp 10110
+network 5.88.192.32 0.0.0.15
+network 5.88.192.56 0.0.0.7
+no auto-summary
+exit
+ip route 0.0.0.0 0.0.0.0 se0/0/0
+do cop r st
+
+

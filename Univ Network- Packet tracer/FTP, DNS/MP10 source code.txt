@@ -1,0 +1,172 @@
+Mp10 source code
+
+10.2.1.8 source code
+*no source code required
+
+
+10.2.2.8 Packet Tracer - DHCP and DNS Servers
+Home laptop command prompt
+ipconfig /all
+ping 64.100.8.8
+nslookup
+centralserver.pt.pka
+branchserver.pt.pka
+
+
+10.2.3.2 Packet Tracer - FTP Servers
+Home Laptop command prompt 
+ftp centralserver.pt.pka
+administrator
+cisco
+dir
+put README.txt
+dir
+ftp branchserver.pt.pka
+administrator
+cisco
+dir
+put README.txt
+dir
+
+PC2 Command Prompt
+ftp centralserver.pt.pka
+anonymous
+anonymous
+dir
+put README.txt
+dir
+put sampleFile.txt
+quit
+
+Smart Phone Command Prompt
+ftp centralserver.pt.pka
+anonymous
+anonymous
+dir
+put README.txt
+dir
+quit
+
+
+
+13.2.6 Packet Tracer - Verify IPv4 and IPv6 Addressing
+PC1 Command Prompt
+ipconfig /all
+ipv6config /all
+ping 10.10.1.20
+ping 2001:DB8:1:4::A
+tracert 10.10.1.20
+tracert 2001:db8:1:4::a
+
+PC2 Command Prompt
+ipconfig /all
+ipv6config /all
+ping 10.10.1.100
+ping 2001:DB8:1:1::A
+ping 10.10.1.100
+ping 2001:DB8:1:1::A
+
+
+13.2.7 Packet Tracer - Use Ping and Traceroute to Test Network Connectivity
+PC1 Command Prompt
+ipconfig /all
+ping 10.10.1.18
+tracert 10.10.1.18
+ping 10.10.1.18
+
+PC3 Command Prompt
+ipconfig /all
+ping 10.10.1.98
+tracert 10.10.1.98
+ping 10.10.1.98
+
+R1 CLI
+cisco
+ena
+class
+show ip interface brief
+show ip route
+
+R3 CLI
+cisco
+ena
+class
+show ip interface brief
+show ip route
+show ipv6 interface brief
+
+R2 CLI
+cisco
+ena
+class
+show ip interface brief
+conf t
+int s0/0/0
+ip add 10.10.1.5 255.255.255.252
+no shutdown
+
+PC2 Command Prompt
+ipv6config /all
+ping 2001:DB8:1:4::2
+tracert 2001:DB8:1:4::2
+ping 2001:DB8:1:4::2
+
+PC4 Command Prompt
+ipv6config /all
+ping 2001:DB8:1:1::2
+tracert 2001:DB8:1:1::2
+ping 2001:DB8:1:1::2
+
+
+13.3.1 Packet Tracer - Use ICMP to Test and Correct Network Connectivity
+PC-1 Command Prompt
+ping 203.0.113.100
+
+Laptop-A Command Prompt
+ping 203.0.113.100
+
+PC-2 Command Prompt
+ping 2001:db8:acad::100
+
+PC-3 Command Prompt
+ping 2001:db8:acad::100
+
+PC-4 Command Prompt
+ping 203.0.113.100
+tracert 203.0.113.100
+ping 203.0.113.100
+
+Server1 Command Prompt
+ping 203.0.113.100
+tracert 203.0.113.100
+ping 203.0.113.100
+
+Laptop B Command Prompt
+ping 2001:db8:acad::100
+tracert 2001:DB8:1:1::2
+
+RTR-3 CLI
+ena
+show ip interface brief
+conf t
+int g0/0/1
+ipv6 add 2001:db8:5::1/64
+no shut
+exit
+
+14.8.1 Packet Tracer
+MultiServer Command Prompt
+ping -n 1 192.168.1.255
+
+FTP Client
+cisco
+cisco
+quit
+ftp 192.168.1.254
+
+DNS Client
+nslookup multiserver.pt.ptu
+
+
+
+

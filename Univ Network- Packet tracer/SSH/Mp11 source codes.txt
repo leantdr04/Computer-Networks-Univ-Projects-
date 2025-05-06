@@ -1,0 +1,296 @@
+MP11 - chapter 15-17 exercise ssource codes
+16.4.6 Packet Tracer - Configure Secure Passwords and SSH
+PCA Terminal
+ena
+conf t
+host RTA
+int g0/0
+ip add 172.16.1.1 255.255.255.0
+no shut
+exit
+service pass
+security pass min-length 10
+ena sec packettracer
+no ip domain-lookup
+ip domain-name CCNA.com
+username leant secret packettracer
+crypto key generate rsa
+1024
+login block-for 180 attempts 4 within 120
+lin vty 0 15
+transport input ssh
+login local
+exec-timeout 6
+do wr
+
+PCA Command Prompt
+ssh /?
+
+SW1 CLI
+ena
+conf t
+host SW1
+int vlan 1
+ip add 172.16.1.2 255.255.255.0
+no shut
+exit
+ip default-gateway 172.16.1.1
+int range f0/2-24, g0/2
+shutdown
+exit
+service pass
+ena sec packettracer
+no ip domain-lookup
+ip domain-name CCNA.com
+username leant secret packettracer
+crypto key generate rsa
+1024
+login block-for 180 attempts 4 within 120
+lin vty 0 4
+transport input ssh
+login local
+exec-timeout 6
+do wr
+
+
+16.5.1 Packet Tracer - Secure Network Devices
+RTR-A CLI
+enable
+conf t
+hostname RTR-A
+no ip domain-lookup
+ip domain-name security.com
+banner motd "Unauthorized access prohibited."
+security passwords min-length 10
+service password-encryption
+enable secret @Cons1234!
+login block-for 45 attempts 3 within 100
+line con 0
+password @Cons1234!
+login
+exec-timeout 7 
+exit
+username NETadmin secret LogAdmin!9
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 7 0
+exit
+crypto key generate rsa
+1024
+do wr
+end
+
+SW-1 CLI
+enable
+conf t
+host SW-1
+ip domain-name security.com
+enable secret @Cons1234!
+username NETadmin secret LogAdmin!9
+int range f0/1 f0/3-9, f0/11-24, g0/2
+shutdown
+int Vlan1
+ip add 192.168.1.254 255.255.255.0
+no shutdown
+exit
+ip default-gateway 192.168.1.1
+line vty 0 4
+login local
+transport input ssh
+exit
+crypto key generate rsa
+1024
+end
+
+
+17.5.9 Packet Tracer - Interpret show Command Output
+ISP PC Terminal
+ena
+show arp
+show flash
+show ip route
+show interfaces
+show ip interface brief
+show protocols
+show users
+show version
+show ?
+show flash
+
+17.7.7 Packet Tracer - Troubleshoot Connectivity Issues
+PC-01 Command Prompt
+ipconfig
+ping 172.16.1.1
+ping 209.165.201.2
+ping 172.16.1.4
+ping 172.16.2 3
+ping 172.16.2 4
+
+
+PC-02 Command Prompt
+ipconfig
+ping 172.16.1.1
+ping 209.165.201.2
+ping 172.16.1.3
+ping 172.16.2 3
+ping 172.16.2 4
+
+PC-A Command Prompt
+ipconfig
+ping 172.16.2.1
+ping 209.165.201.2
+ping 172.16.2 4
+ping 172.16.1.3
+ping 172.16.1 4
+PC-A Telnet/SSH
+172.16.1.1
+Admin01
+cisco12345
+conf t
+int g0/1
+ip add 172.16.2.1 255.255.255.0
+
+PC-B Command Prompt
+ipconfig
+ping 172.16.2.1
+ping 209.165.201.2
+ping 172.16.2 3
+ping 172.16.1.3
+ping 172.16.1 4
+
+
+
+17.8.2 Packet Tracer - Skills Integration Challenge
+R1 CLI
+ena
+conf t
+host R1
+no ip domain-lookup
+ip domain-name CCNA-lab.com
+serv pass
+banner motd "R1:Authorized Personnel only!"
+login block-for 180 4 attempts within 120
+security pass min-length 10
+ena sec Ciscoenpa55
+lin con 0
+pass Ciscoconpa55
+login
+exec-timeout 5
+exit
+username Admin1 privilege 15 sec Admin1pa55
+int range g0/0-2
+no shut
+exit
+lin vty 0 15
+transport input ssh
+login local
+exec-timeout 5
+exit
+crypto jey generate rsa
+1024
+int g0/0
+ip add 192.168.0.1 255.255.255.128
+ipv6 add FE80::1 link-local
+ipv6 add 2001:DB8:ACAD::1/64
+int g0/1
+ip add 192.168.0.129 255.255.255.192
+ipv6 add FE80::1 link-local
+ipv6 add 2001:DB8:ACAD:1::1/64
+int g0/2
+ip add 192.168.0.193 255.255.255.224
+ipv6 add FE80::1 link-local
+ipv6 address 2001:DB8:ACAD:2::1/64
+int s0/0/1
+ip address 172.16.1.2 255.255.255.252
+ipv6 address FE80::1 link-local
+ipv6 address 2001:DB8:2::1/64
+no shutdown
+
+S1 CLI
+ena
+conf t 
+host S1
+no ip domain-lookup
+serv pass
+ena sec Ciscoenpa55
+ip default-gateway 192.168.0.1
+lin con 0
+pass Ciscoconpa55
+login
+exec-timeout 5
+lin vty 0 4
+exec-timeout 5
+int vlan1 
+ip add 192.168.0.2 255.255.255.128
+no shut
+do wr
+
+S2 CLI
+ena
+conf t 
+host S2
+no ip domain-lookup
+serv pass
+ena sec Ciscoenpa55
+ip default-gateway 192.168.0.129
+lin con 0
+pass Ciscoconpa55
+login
+exec-timeout 5
+lin vty 0 4
+exec-timeout 5
+int vlan1 
+ip add 192.168.0.130 255.255.255.192
+no shut
+do wr
+
+S3 CLI
+ena
+conf t 
+host S3
+no ip domain-lookup
+serv pass
+ena sec Ciscoenpa55
+ip default-gateway 192.168.0.193
+lin con 0
+pass Ciscoconpa55
+login
+exec-timeout 5
+lin vty 0 4
+exec-timeout 5
+int vlan1 
+ip add 192.168.0.194 255.255.255.224
+no shut
+do wr
+
+
+17.8.3 Packet Tracer - Troubleshooting Challenge
+R1 CLI
+Ciscoconpa55
+ena
+Ciscoenpa55
+conf t
+int g0/1
+ip address 172.16.1.126 255.255.255.192
+username Admin1 secret Admin1pa55
+line vty 0 4
+transport input ssh
+do wr
+
+S2 CLI
+Ciscoconpa55
+ena
+Ciscoenpa55
+conf t
+int vlan1
+ip address 172.16.1.125 255.255.255.192
+do wr
+
+
+
+
+
+
+
+

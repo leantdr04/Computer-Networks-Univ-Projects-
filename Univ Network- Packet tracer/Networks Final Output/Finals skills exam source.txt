@@ -1,0 +1,370 @@
+Source code
+
+ADMINHQ Command Prompt
+ftp 172.16.100.5
+cisco
+cisco
+dir
+get EMAIL.txt
+get USERNAMES.txt
+
+
+CISCOHQ Router
+aniag
+DTE
+ena
+RAM
+conf t
+host CISCOHQ
+banner motd "LEARN AS MUCH AS YOU CAN CISCO1 STUDENTS!!!"
+serv pass
+ena sec vlsm
+lin con 0
+pass cisco1
+login
+logging synch
+lin vty 0 4
+pass cisco1
+login
+logging synch
+exit
+int s0/0/0
+ip add 172.16.100.65 255.255.255.252
+clock rate 64000
+no shut
+int s0/0/1
+ip add 172.16.100.69 255.255.255.252
+clock rate 64000
+no shut
+int s0/1/1
+ip add 200.200.200.1 255.255.255.248
+no shut
+int fa0/0
+ip add 172.16.100.1 255.255.255.192
+no shut
+int fa0/1
+ip add 172.16.100.73 255.255.255.252
+no shut
+exit
+router rip
+version 2
+network 172.16.100.0
+network 172.16.100.64
+network 172.16.100.68
+network 172.16.100.72
+no auto-summ
+passive-int f0/0     
+default-info originate  
+exit
+ntp server 172.16.100.10
+ntp update-calendar
+logging host 172.16.100.10
+ip domain-lookup
+ip domain-name CISCOHQ
+ip name-server 172.16.100.3  
+ip route 0.0.0.0 0.0.0.0 200.200.200.6   
+crypto key generate rsa
+1024
+ip ssh ver 2
+lin vty 0 4
+transport input ssh
+login local
+login
+exit
+ip ssh authentication-retries 2
+ip ssh time-out 20
+do wr   
+do cop r tftp
+172.16.100.4
+CISCOHQ
+
+
+CISCOA router
+alvin
+FCS
+ena
+config t
+hostname CISCOA
+banner motd "LEARN AS MUCH AS YOU CAN CISCO1 STUDENTS!!!"
+serv pass
+enable secret vlsm
+service password-encryption
+line console 0
+password cisco1
+login
+logging synchronous 
+line vty 0 4
+password cisco1
+login
+logging synchronous 
+exit
+int s0/0/0
+ip address 172.16.100.66 255.255.255.252
+no shut
+int f0/0
+ip add 172.16.64.1 255.255.224.0
+no shut 
+exit
+router rip
+version 2
+network 172.16.64.0
+network 172.16.100.64
+no auto-summ
+passive-int f0/0 
+exit
+int f0/0
+ip helper-address 172.16.100.2
+exit
+ntp server 172.16.100.10
+ntp update-calendar
+logging host 172.16.100.10      
+ip domain-lookup
+ip domain-name CISCOA
+ip name-server 172.16.100.3
+do wr
+do cop r tftp
+172.16.100.4
+CISCOA
+
+
+CISCOB router
+eric
+bandwidth
+ena
+CSMA/CD
+config t
+hostname CISCOB
+banner motd "LEARN AS MUCH AS YOU CAN CISCO1 STUDENTS!!!"
+serv pass
+ena sec vlsm
+line console 0
+password cisco1
+login
+logging synchronous 
+line vty 0 4
+password cisco1
+login
+logging synchronous
+exit
+int s0/0/0
+ip address 172.16.100.70 255.255.255.252
+no shut
+int f0/0
+ip add 172.16.96.1 255.255.252.0
+no shut
+exit
+router rip
+version 2
+network 172.16.96.0
+network 172.16.100.68
+no auto-summ
+passive-int f0/0   
+exit
+int f0/0
+ip helper-address 172.16.100.2
+exit
+ntp server 172.16.100.10
+ntp update-calendar
+logging host 172.16.100.10   
+ip domain-lookup
+ip domain-name CISCOB
+ip name-server 172.16.100.3
+do wr
+do cop r tftp
+172.16.100.4
+CISCOB
+
+
+CISCOACAD router 
+deleon
+ARP
+ena
+switch
+config t
+hostname CISCOACAD
+banner login "LEARN AS MUCH AS YOU CAN CISCO1 STUDENTS!!!"
+serv pass
+ena sec vlsm
+line console 0
+password cisco1
+login
+logging synchronous 
+line vty 0 15
+password cisco1
+login
+logging synchronous
+exit
+ip routing
+int g0/1
+no switchport 
+ip address 172.16.100.74 255.255.255.252
+no shut
+int f0/1
+no switchport 
+ip add 172.16.0.1 255.255.192.0
+no shut
+exit
+router rip
+version 2
+network 172.16.0.0
+network 172.16.100.72
+no auto-summ
+passive-int f0/1   
+exit
+ip domain-lookup
+ip domain-name CISCOACAD
+ip name-server 172.16.100.3
+do wr
+
+
+ISP router
+ena
+MAC
+conf t
+hostname ISP
+banner motd "LEARN AS MUCH AS YOU CAN CISCO1 STUDENTS!!!"
+serv pass
+ena sec vlsm
+line console 0
+password cisco1
+login
+logging synchronous 
+line vty 0 4
+password cisco1
+login
+logging synchronous
+exit
+int s0/0/0
+clock rate 64000
+no shut
+exit     
+ip domain-lookup
+ip domain-name ISP
+ip name-server 172.16.100.3
+ip route 200.200.200.0 255.255.255.248 se0/0/0
+do wr
+exit
+
+SW1_HQ Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW1_HQ
+banner motd "LEARN AS MUCH AS YOU CAN CISCO1 STUDENTS!!!"
+serv pass
+line console 0
+logging synchronous 
+line vty 15
+password cisco1
+login
+logging synchronous
+exit
+int vlan 1
+ip add 172.16.100.7 255.255.255.192
+no shut
+exit     
+no ip domain-lookup
+ip domain-name SW1_HQ
+ip name-server 172.16.100.3
+ip default-gateway 172.16.100.1
+do wr
+exit
+
+SW2_HQ Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW2_HQ
+int vlan 1
+ip add 172.16.100.8 255.255.255.192
+no shut
+exit     
+ip default-gateway 172.16.100.1
+do wr
+exit
+
+SW1_A Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW1_A
+int vlan 1
+ip add 172.16.64.7  255.255.224.0
+no shut
+exit     
+ip default-gateway 172.16.64.1
+do wr
+exit
+
+SW2_A Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW2_A
+int vlan 1
+ip add 172.16.64.8 255.255.224.0
+no shut
+exit     
+ip default-gateway 172.16.64.1
+do wr
+exit
+
+SW1_B Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW1_B
+int vlan 1
+ip add 172.16.96.7 255.255.252.0
+no shut
+exit     
+ip default-gateway 172.16.96.1 
+do wr
+exit
+
+SW2_B Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW2_B
+int vlan 1
+ip add 172.16.96.8 255.255.252.0
+no shut
+exit     
+ip default-gateway 172.16.96.1 
+do wr
+exit
+
+SW1_ACAD Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW1_ACAD
+int vlan 1
+ip add 172.16.0.7 255.255.192.0
+no shut
+exit     
+ip default-gateway 172.16.0.1 
+do wr
+exit
+
+SW2_B Switch
+cisco1
+ena
+vlsm
+conf t
+hostname SW2_ACAD
+int vlan 1
+ip add 172.16.0.8 255.255.192.0
+no shut
+exit     
+ip default-gateway 172.16.0.1  
+do wr
+exit
